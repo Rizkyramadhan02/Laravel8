@@ -24,10 +24,11 @@ class CobaController extends Controller
  
         $friends = new \App\Models\Friends;
  
-        $friends->name = $request->nama;
+        $friends->nama = $request->nama;
         $friends->no_tlp = $request->no_tlp;
         $friends->alamat = $request->alamat;
  
         $friends->save();
+        return redirect ('/friends');
     }
 }

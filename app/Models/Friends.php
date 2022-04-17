@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Friends extends Model
 {
+    protected $fillable = ['nama', 'no_tlp', 'alamat'];
     use HasFactory;
 }
