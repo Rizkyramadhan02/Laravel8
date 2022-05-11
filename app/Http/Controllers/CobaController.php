@@ -32,6 +32,7 @@ class CobaController extends Controller
         $friends->nama = $request->nama;
         $friends->no_tlp = $request->no_tlp;
         $friends->alamat = $request->alamat;
+        $friends->groups_id = 0;
  
         $friends->save();
         return redirect ('/');
@@ -39,7 +40,9 @@ class CobaController extends Controller
     public function show($id)
     {
         $friends = \App\Models\Friends::where('id', $id)->first();
-        return view('friends.show', ['friend' => $friends]);
+
+        $history = \App\Models\History::with('friends', 'groups')->where('friends_id', $id)->get();
+        return view('friends.show', ['friend' => $friends,'history' => $history]);
     }
     public function edit($id)
     {
@@ -57,6 +60,7 @@ class CobaController extends Controller
             'nama' => $request->nama,
             'no_tlp' => $request->no_tlp,
             'alamat' => $request->alamat,
+
         ]);
 
         return redirect('/');

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title', 'Friends')
 
@@ -28,7 +28,7 @@
   @enderror
   </div>
   
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="mt-3 btn btn-primary">Submit</button>
 </form>
 
 @endsection

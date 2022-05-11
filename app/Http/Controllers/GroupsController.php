@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Groups;
+use App\Models\History;
 use App\Models\Friends;
 use Illuminate\Http\Request;
 
@@ -61,7 +62,9 @@ class GroupsController extends Controller
     public function show($id)
     {
         $groups = \App\Models\Groups::where('id', $id)->first();
-        return view('groups.show', ['group' => $groups]);
+
+        $count =  \App\Models\Friends::where('groups_id', '=', $groups->id)->count();
+        return view('groups.show', ['group' => $groups, 'count' => $count]);
     }
 
     /**
@@ -85,7 +88,7 @@ class GroupsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        \App\Models\groups::find($id)->update([
+        \App\Models\groups::whereId($id)->update([
             'name' => $request->name,
             'description' => $request->description,
         ]);
@@ -109,25 +112,55 @@ class GroupsController extends Controller
     {
         $friend = \App\Models\Friends::where('groups_id', '=', 0)->get();
         $groups = \App\Models\Groups::where('id', $id)->first();
+
+        
         return view('groups.addmember', ['group' => $groups, 'friend' => $friend]);
     }
 
     public function updateaddmember(Request $request, $id)
     {
-        $friend = \App\Models\Friends::where('id', $request->friend_id)->first();
-        \App\Models\Friends::find($friend->id)->update([
+        $friend =  \App\Models\Friends::where('id', $request->friend_id)->first();
+        \App\Models\Friends::whereId($friend->id)->update([
             'groups_id' => $id
-        ]);
 
-        return redirect('/groups/addmember/' . $id);
+        ]);
+        $history = new History();
+        // dd($request->all());      
+        $history->friends_id = $request->friend_id;
+        $history->groups_id = $id;
+        $history->details = 'masuk';
+        $history->save();
+
+        $group = Groups::find($id);
+        $group->masuk += 1;
+        $group->save();
+
+     
+
+        return redirect('/groups');
     }
 
     public function deleteaddmember(Request $request, $id)
     {
-        \App\Models\Friends::find($id)->update([
+   
+
+        $friend = Friends::find($id);
+        \App\Models\Friends::whereId($id)->update([
             'groups_id' => 0
         ]);
+        $history = new History();
+        // dd($request->all());      
+        $history->friends_id = $id;
+        $history->groups_id = $friend->groups_id;
+        $history->details = 'keluar';
+        $history->save();
 
+        $group = Groups::find($id);
+        // dd($group);
+        $group->keluar = 1;
+        $group->save();
         return redirect('/groups');
+       
+
     }
 }

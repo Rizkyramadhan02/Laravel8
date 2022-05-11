@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupsTable extends Migration
-
+class CreateFriendsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +13,12 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function (Blueprint $table) {
+        Schema::create('friends', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->integer('masuk')->default(0);
-            $table->integer('keluar')->default(0);
+            $table->unsignedBigInteger('groups_id')->nullable()->default(0);;
+            $table->string('nama');
+            $table->string('no_tlp');
+            $table->string('alamat');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groups');
+        Schema::dropIfExists('friends');
     }
 };

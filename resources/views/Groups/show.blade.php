@@ -1,14 +1,23 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title', 'Coba')
 
 @section('content')
     <div class="card">
-        <div class="card-body">
-            <h3>Nama teman : {{ $friend['nama'] }}</h3>
-            <h3>No tlp teman : {{ $friend['no_tlp'] }}</h3>
-            <h3>Alamat teman : {{ $friend['alamat'] }}</h3>
-        </div>
+      
+            <div class="card-body">
+                
+         
+                @if(isset($count))
+                <h6>Jumlah: {{ $count }} </h6>
+                <h6>Masuk : {{ $group->masuk}}</h6>
+                <h6> Keluar : {{ $group->keluar }}</h6>
+@else
+<h6>Jumlah: 0 </h6>
+                <h6>Masuk : {{ $group->masuk}}</h6>
+                <h6> Keluar : {{ $group->keluar }}</h6>
+                @endif
+            </div>
     </div>
 @endsection
 
