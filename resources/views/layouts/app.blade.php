@@ -23,11 +23,10 @@
       <div class="navbar-nav">
         <a class="nav-link active" aria-current="page" href="/">Home</a>
         <a class="nav-link" href="/friends">Friends</a>
-       
+        <a class="nav-link" href="/groups">Groups</a>    
     </div>
   </div>
 </nav>
-<a href="/friends/create" class="card-link btn-primary">Tambah Teman</a>
 
      @yield('content')
 
